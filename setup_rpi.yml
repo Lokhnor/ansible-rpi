@@ -1,0 +1,36 @@
+---
+- name: Setup Raspberry Pi
+  hosts: rpi
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Update and upgrade packages
+      apt:
+        update_cache: yes
+        upgrade: safe
+
+    - name: Install curl
+      apt:
+        name: curl
+        state: present
+
+    - name: Setup NodeSource repository
+      ansible.builtin.shell: |
+        curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
+      args:
+        warn: no
+
+    - name: Install Node.js and npm
+      apt:
+        name:
+          - nodejs
+        state: present
+
+    - name: Check npm version
+      command: npm -v
+      register: npm_version
+
+    - name: Display Node.js and npm versions
+      debug:
+        msg: "Node.js version: {{ node_version.stdout }}, npm version: {{ npm_version.stdout }}"
+
