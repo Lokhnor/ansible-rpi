@@ -1,2 +1,2 @@
 # ansible-rpi
-Playbook to setup a new Raspberry pi installation
+Playbook to setup a new pi installation
